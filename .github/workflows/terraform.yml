@@ -18,12 +18,18 @@ jobs:
       with:
         terraform_version: 1.5.6 # Adjust this to your Terraform version
 
-    - name: Authenticate to Azure
+    # - name: Authenticate to Azure
+    #   run: |
+    #     az login --service-principal \
+    #       -u ${{ secrets.AZURE_CLIENT_ID }} \
+    #       -p ${{ secrets.AZURE_CLIENT_SECRET }} \
+    #       --tenant ${{ secrets.AZURE_TENANT_ID }}
+    - name: Replace placeholders with secrets
       run: |
-        az login --service-principal \
-          -u ${{ secrets.AZURE_CLIENT_ID }} \
-          -p ${{ secrets.AZURE_CLIENT_SECRET }} \
-          --tenant ${{ secrets.AZURE_TENANT_ID }}
+        sed -i 's/clientid/${{ secrets.AZURE_CLIENT_ID }}/g' provider.tf
+        sed -i 's/clientsecret/${{ secrets.AZURE_CLIENT_SECRET }}/g' provider.tf
+        sed -i 's/tenantid/${{ secrets.AZURE_TENANT_ID }}/g' provider.tf
+        sed -i 's/subscriptionid/${{ secrets.AZURE_SUBSCRIPTION_ID }}/g' provider.tf
 
     - name: Terraform Init
       run: terraform init
