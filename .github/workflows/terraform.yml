@@ -42,7 +42,6 @@ jobs:
         azcliversion: latest
         inlineScript: |
           az group show --name "tfstateRG"
-          # You can write your Azure CLI inline scripts here.
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
